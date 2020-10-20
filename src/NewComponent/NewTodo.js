@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import "./NewTodo.css"
 
 class NewTodo extends Component {
   constructor(props) {
