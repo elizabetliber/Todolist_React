@@ -16,6 +16,7 @@ class App extends React.Component {
     }
     this.onDelete = this.onDelete.bind(this)
     this.onAdd = this.onAdd.bind(this)
+    this.keyPress =  this.keyPress.bind(this)
     this.itemId = 4
   }
   
@@ -26,14 +27,16 @@ class App extends React.Component {
       }
     })
   }
+  
   input1Change = (e) => {
     let next = this.state;
     next.value = e.target.value;
     next.changed = next.value !== next.valueOld;
+    e.currentTarget.value = ""
     this.setState(next)
-    
   }
-  onAdd(value){
+  
+  onAdd(value) {
     const newItem = {
       id: this.itemId++, title: value, done: false
     }
@@ -43,6 +46,15 @@ class App extends React.Component {
         tasks: newArr
       }
     })
+  }
+  
+  keyPress(e) {
+    if (e.key === "Enter" ) {
+      this.setState({
+        tasks : [...this.state.tasks, e.currentTarget.value]
+      })
+      e.currentTarget.value = ""
+    }
   }
   
   render() {
@@ -56,9 +68,11 @@ class App extends React.Component {
                  aria-label="Text input with checkbox"
                  onChange={this.input1Change}
                  value={this.state.value}
+                 onKeyPress={this.keyPress}
           />
           <button className="btn btn-success"
-                  onClick={() => this.onAdd(this.state.value)}>+ add</button>
+                  onClick={() => this.onAdd(this.state.value)}>+ add
+          </button>
         </div>
         <div>
           {tasks.map(task => (
